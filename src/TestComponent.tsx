@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { todoListAPI } from "./api/todoListAPI";
 
 type TodoListResponseType = {
     id: string
@@ -25,14 +26,14 @@ export const TestComponent = () => {
 
 
     useEffect(() => {
-        const promise = axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists', settings)
-        promise.then((res) => { 
+        const promise = todoListAPI.getTodoLists()
+        promise.then((res) => {
             setState(res.data)
-         })
+        })
     }, [count])
 
     const addTodoListRequest = (newTitle: string) => {
-        const promise = axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', {title: newTitle}, settings)
+        const promise = axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', { title: newTitle }, settings)
         promise.then(() => {
             setCount({})
             setTitle('')
@@ -44,18 +45,18 @@ export const TestComponent = () => {
             setCount({})
             setTodoListId('')
         })
-        .catch((err) => {console.log(err.data)})
+            .catch((err) => { console.log(err.data) })
     }
     const changeTodoListRequest = (todolistId: string, title: string) => {
-        const promise = axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`,{title}, settings)
+        const promise = axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, { title }, settings)
         promise.then((res) => {
             setCount({})
             setTitle('')
             setTodoListId('')
             console.log(res.data);
-            
+
         })
-        .catch((err) => {console.log(err.data)})
+            .catch((err) => { console.log(err.data) })
     }
 
 
@@ -68,21 +69,21 @@ export const TestComponent = () => {
 
     return (
         <div>
-            { <ul>
-                {state.map( tl => {
-                    return(
+            {<ul>
+                {state.map(tl => {
+                    return (
                         <li key={tl.id}>
                             <h4>{tl.title}</h4>
                             <span>{tl.id}</span>
                         </li>
                     )
                 })}
-            </ul> }
-            <input value={title} onChange={onChangeTitleHandler} placeholder="title"/>
-            <input value={todoListId} onChange={onChangeIDHandler} placeholder="id"/>
-            <button onClick={() => {addTodoListRequest(title)}}>ADD</button>
-            <button onClick={() => {delTodoListRequest(todoListId)}}>DEL</button>
-            <button onClick={() => {changeTodoListRequest(todoListId, title)}}>CHANGE</button>
+            </ul>}
+            <input value={title} onChange={onChangeTitleHandler} placeholder="title" />
+            <input value={todoListId} onChange={onChangeIDHandler} placeholder="id" />
+            <button onClick={() => { addTodoListRequest(title) }}>ADD</button>
+            <button onClick={() => { delTodoListRequest(todoListId) }}>DEL</button>
+            <button onClick={() => { changeTodoListRequest(todoListId, title) }}>CHANGE</button>
         </div>
 
     )
