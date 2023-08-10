@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, removeTodoListAC } from './store/todoListsReducer';
 import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from './store/tasksReducer';
 import { Counter } from './SuperTest';
+import { TestComponent } from './TestComponent';
 
 export type TaskType = {
   id: string
@@ -69,6 +70,7 @@ function AppWithRedux() {
 
   return (
     <div className="App">
+      <TestComponent/>
       <AddItemForm addItem={addTodoList} />
       {todoLists.map(tl => {
         
