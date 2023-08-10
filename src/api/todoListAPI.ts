@@ -17,10 +17,10 @@ export const todoListAPI = {
         return instance.post<ResponseType<{item: TodoListResponseType}>>('todo-lists', { title: newTitle })
     },
     deleteTodoList(todolistId: string) {
-        return instance.delete<ResponseType<{}>>(`todo-lists/${todolistId}`)
+        return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
     },
     changeTodoListTitle(todolistId: string, title: string) {
-        return instance.put<ResponseType<{}>>(`todo-lists/${todolistId}`, { title })
+        return instance.put<ResponseType>(`todo-lists/${todolistId}`, { title })
     }
 }
 type TodoListResponseType = {    
@@ -30,7 +30,7 @@ type TodoListResponseType = {
     order: number
 }
 
-type ResponseType<T> = {
+type ResponseType<T = {}> = {
     fieldsErrors: string[]
     messages: string[]
     resultCode: number
