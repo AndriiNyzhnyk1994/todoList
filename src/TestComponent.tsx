@@ -33,22 +33,22 @@ export const TestComponent = () => {
     }, [count])
 
     const addTodoListRequest = (newTitle: string) => {
-        const promise = axios.post('https://social-network.samuraijs.com/api/1.1/todo-lists', { title: newTitle }, settings)
+        const promise = todoListAPI.addTodoList(newTitle)
         promise.then(() => {
             setCount({})
             setTitle('')
         })
     }
     const delTodoListRequest = (todolistId: string) => {
-        const promise = axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, settings)
+        const promise = todoListAPI.deleteTodoList(todoListId)
         promise.then((res) => {
             setCount({})
             setTodoListId('')
         })
             .catch((err) => { console.log(err.data) })
     }
-    const changeTodoListRequest = (todolistId: string, title: string) => {
-        const promise = axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, { title }, settings)
+    const changeTodoListTitleRequest = (todolistId: string, title: string) => {
+        const promise = todoListAPI.changeTodoListTitle(todoListId, title)
         promise.then((res) => {
             setCount({})
             setTitle('')
@@ -83,7 +83,7 @@ export const TestComponent = () => {
             <input value={todoListId} onChange={onChangeIDHandler} placeholder="id" />
             <button onClick={() => { addTodoListRequest(title) }}>ADD</button>
             <button onClick={() => { delTodoListRequest(todoListId) }}>DEL</button>
-            <button onClick={() => { changeTodoListRequest(todoListId, title) }}>CHANGE</button>
+            <button onClick={() => { changeTodoListTitleRequest(todoListId, title) }}>CHANGE</button>
         </div>
 
     )
