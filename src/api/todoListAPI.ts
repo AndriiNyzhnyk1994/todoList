@@ -24,7 +24,6 @@ export const todoListAPI = {
         return instance.put<ResponseType<{}>>(`todo-lists/${todolistId}`, { title })
     }
 }
-
 type TodoListResponseType = {    
     addedDate: string
     id: string
