@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { todoListAPI } from "./api/todoListAPI";
+import { TaskType } from "./AppWithRedux";
+import { TestTodoList } from "./TestTodoList";
 
 type TodoListResponseType = {
     id: string
@@ -22,7 +24,6 @@ export const TestComponent = () => {
     const [count, setCount] = useState<Object>({})
     const [title, setTitle] = useState('')
     const [todoListId, setTodoListId] = useState('')
-
 
 
     useEffect(() => {
@@ -69,16 +70,13 @@ export const TestComponent = () => {
 
     return (
         <div>
-            {<ul>
+            {<div>
                 {state.map(tl => {
                     return (
-                        <li key={tl.id}>
-                            <h4>{tl.title}</h4>
-                            <span>{tl.id}</span>
-                        </li>
+                        <TestTodoList key={tl.id} todoList={tl}/>
                     )
                 })}
-            </ul>}
+            </div>}
             <input value={title} onChange={onChangeTitleHandler} placeholder="title" />
             <input value={todoListId} onChange={onChangeIDHandler} placeholder="id" />
             <button onClick={() => { addTodoListRequest(title) }}>ADD</button>
