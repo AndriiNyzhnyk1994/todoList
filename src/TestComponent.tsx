@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { todoListAPI } from "./api/todoListAPI";
-import { TaskType } from "./AppWithRedux";
 import { TestTodoList } from "./TestTodoList";
 
 type TodoListResponseType = {

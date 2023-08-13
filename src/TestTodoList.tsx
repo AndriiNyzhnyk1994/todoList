@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { TaskType } from './AppWithRedux'
-import { tasksAPI } from './api/todoListAPI'
+import { TaskType, tasksAPI } from './api/todoListAPI'
 import { AddItemForm } from './AddItemForm'
 import { Task } from './Task'
 
@@ -31,19 +30,21 @@ export const TestTodoList = React.memo((props: PropsType) => {
 
     const addTask = (newTaskTitle: string) => {
         const promise = tasksAPI.addTask(props.todoList.id, newTaskTitle)
-        promise.then((res) => {
+        promise.then(() => {
             setCount({})
         })
     }
     const changeTask = (taskId: string, newTitle: string) => {
         const promise = tasksAPI.changeTask(props.todoList.id, taskId, newTitle)
-        promise.then((res) => {
+        promise.then(() => {
+            setTitle('')
+            setTaskId('')
             setCount({})
         })
     }
     const deleteTask = (taskId: string) => {
         const promise = tasksAPI.deleteTask(props.todoList.id, taskId)
-        promise.then((res) => {
+        promise.then(() => {
             setCount({})
         })
     }
@@ -59,8 +60,8 @@ export const TestTodoList = React.memo((props: PropsType) => {
             <span>Add Task down here</span>
             <AddItemForm addItem={addTask} />
             <div><span>Change Task</span></div>
-            <input placeholder='CHANGE TASK TITLE' onChange={(e) => { setTitle(e.currentTarget.value) }} />
-            <input placeholder='task ID' onChange={(e) => { setTaskId(e.currentTarget.value) }} />
+            <input placeholder='CHANGE TASK TITLE' value={title} onChange={(e) => { setTitle(e.currentTarget.value) }} />
+            <input placeholder='task ID' value={taskId} onChange={(e) => { setTaskId(e.currentTarget.value) }} />
             <button onClick={() => { changeTask(taskId, title) }}>change</button>
             {
                 tasks.map((t) => {
@@ -72,8 +73,6 @@ export const TestTodoList = React.memo((props: PropsType) => {
                                 <span>{t.id}</span>
                                 <button onClick={() => { deleteTask(t.id) }}>x</button>
                             </div>
-
-
                         </div>
                     )
                 })
