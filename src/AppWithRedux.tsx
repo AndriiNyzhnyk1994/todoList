@@ -2,11 +2,15 @@ import React, { useCallback, useEffect } from 'react';
 import './App.css';
 import { TodoList } from './Todolist';
 import { AddItemForm } from './AddItemForm';
-import { useSelector } from 'react-redux';
-import { AppRootStateType, useAppDispatch, useAppSelector } from './store/store';
-import { FilterValuesType, TodoListDomainType, addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, getTodosTC, removeTodoListAC, setTodoListsAC } from './store/todoListsReducer';
+
+import { useAppDispatch, useAppSelector } from './store/store';
 import {
-  addTaskTC, changeTaskStatusTC, getTasksTC,
+  FilterValuesType, TodoListDomainType,
+  addTodoListAC, addTodoListTC, changeTodoListFilterAC,
+  changeTodoListTitleAC, getTodosTC, removeTodoListTC
+} from './store/todoListsReducer';
+import {
+  addTaskTC, changeTaskStatusTC,
   removeTaskTC, changeTaskTitleTC
 } from './store/tasksReducer';
 import { TaskStatuses, TaskType } from './api/todoListAPI';
@@ -25,13 +29,11 @@ function AppWithRedux() {
   const dispatch = useAppDispatch()
 
   const addTodoList = useCallback((newTodoListTitle: string) => {
-    const action = addTodoListAC(newTodoListTitle)
-    dispatch(action)
+    dispatch(addTodoListTC(newTodoListTitle))
   }, [])
 
   const removeTodoList = useCallback((todoListId: string) => {
-    const action = removeTodoListAC(todoListId)
-    dispatch(action)
+    dispatch(removeTodoListTC(todoListId))
   }, [])
 
   const removeTask = useCallback((todoListId: string, taskId: string) => {
@@ -44,6 +46,7 @@ function AppWithRedux() {
   }, [])
   const addTask = useCallback((todoListId: string, newTaskTitle: string) => {
     dispatch(addTaskTC(todoListId, newTaskTitle))
+    dispatch(getTodosTC())
   }, [])
   const changeTaskStatus = useCallback((todoListId: string, taskId: string, status: TaskStatuses) => {
     const action = changeTaskStatusTC(todoListId, taskId, status)

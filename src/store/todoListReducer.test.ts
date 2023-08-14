@@ -37,10 +37,17 @@ test('Todolist should be removed', () => {
 })
 
 test('Todolist should be added', () => {
-    const endState = todoListReducer(startState, addTodoListAC('Clients'))
+    const newTodoList: TodoListDomainType = {
+        title: 'Hi',
+        id: '28',
+        filter: 'all',
+        order: 0,
+        addedDate: ''
+    } 
+    const endState = todoListReducer(startState, addTodoListAC(newTodoList))
 
     expect(endState.length).toBe(3)
-    expect(endState[0].title).toBe('Clients')
+    expect(endState[0].title).toBe('Hi')
     expect(endState[1].id).toBe(todolistId1)
 
 })
