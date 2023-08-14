@@ -63,9 +63,9 @@ export const TodoList = React.memo((props: PropsType) => {
         <div className="todoList">
             <div>
                 <button onClick={removeTodoList}>DEL</button>
-                <h1>
+                <h2>
                     <EditableSpan title={props.title} changeTitle={changeTodoListTitle} />
-                </h1>
+                </h2>
                 <AddItemForm addItem={addTask} />
                 <div>
                     {tasksForTodoList.map((t) => {

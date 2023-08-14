@@ -1,8 +1,9 @@
 import { v1 } from "uuid"
 import { AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType } from "./todoListsReducer"
 import { TasksStateType } from "../AppWithRedux"
-import { TaskPriorities, TaskStatuses, TaskType, tasksAPI } from "../api/todoListAPI"
+import { TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType, tasksAPI } from "../api/todoListAPI"
 import { Dispatch } from "redux"
+import { AppRootStateType } from "./store"
 
 
 
@@ -97,15 +98,15 @@ export const tasksReducer = (state: TasksStateType = {}, action: ActionType) => 
             return stateCopy
         }
         case "SET-TODOLISTS": {
-            let stateCopy = {...state}
+            let stateCopy = { ...state }
             action.todoLists.forEach(tl => {
                 stateCopy[tl.id] = []
             })
             return stateCopy
         }
         case "SET-TASKS": {
-            return {...state, [action.todoListId]: action.tasks}
-        }    
+            return { ...state, [action.todoListId]: action.tasks }
+        }
         default: return state
     }
 }
@@ -132,23 +133,58 @@ export const getTasksTC = (todoId: string) => (dispatch: Dispatch) => {
     tasksAPI.getTasks(todoId)
         .then(res => {
             dispatch(setTasksAC(todoId, res.data.items))
-        })    
+        })
 }
 export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispatch) => {
     tasksAPI.deleteTask(todoId, taskId)
         .then(res => {
             dispatch(removeTaskAC(todoId, taskId))
-        })    
+        })
 }
 export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch) => {
     tasksAPI.addTask(todoId, title)
         .then(res => {
             dispatch(addTaskAC(todoId, res.data.data.item))
-        })    
+        })
 }
-export const changeTaskTitleTC = (todoId: string, taskId: string, title: string) => (dispatch: Dispatch) => {
-    tasksAPI.changeTask(todoId, taskId, title)
-        .then(res => {
-            dispatch(changeTaskTitleAC(todoId, taskId, title))
-        })    
-}
+export const changeTaskStatusTC = (todoId: string, taskId: string, status: TaskStatuses) =>
+    (dispatch: Dispatch, getState: () => AppRootStateType) => {
+
+        const task = getState().tasks[todoId].find((t) => t.id === taskId)
+        // getState - второй параметр thunk функции. 
+        // Это метод, который возвращает весь rootState (тудулисты и таски)
+        if (task) {
+            const model: UpdateTaskModelType = {
+                deadline: task.deadline,
+                description: task.description,
+                priority: task.priority,
+                startDate: task.startDate,
+                title: task.title,
+                status
+            }
+            tasksAPI.updateTask(todoId, taskId, model)
+                .then(res => {
+                    dispatch(changeTaskStatusAC(todoId, taskId, status))
+                })
+        }
+    }
+export const changeTaskTitleTC = (todoId: string, taskId: string, title: string) =>
+    (dispatch: Dispatch, getState: () => AppRootStateType) => {
+        const task = getState().tasks[todoId].find((t) => t.id === taskId)
+        // getState - второй параметр thunk функции. 
+        // Это метод, который возвращает весь rootState (тудулисты и таски)
+        if (task) {
+            const model: UpdateTaskModelType = {
+                deadline: task.deadline,
+                description: task.description,
+                priority: task.priority,
+                startDate: task.startDate,
+                status: task.status,
+                title
+            }
+            tasksAPI.updateTask(todoId, taskId, model)
+                .then(res => {
+                    dispatch(changeTaskTitleAC(todoId, taskId, title))
+                })
+        }
+    }

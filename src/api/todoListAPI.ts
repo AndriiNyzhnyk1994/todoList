@@ -32,8 +32,8 @@ export const tasksAPI = {
     addTask(todolistId: string, newTaskTitle: string) {
         return instance.post<ResponseType<{item: TaskType}>>(`/todo-lists/${todolistId}/tasks`, { title: newTaskTitle })
     },
-    changeTask(todolistId: string, taskId: string, title: string) {
-        return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, { title })
+    updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+        return instance.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     },
     deleteTask(todolistId: string, taskId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
@@ -81,6 +81,19 @@ export type GetTasksResponseType = {
     totalCount: number
     error: string | null
 }
+export type UpdateTaskModelType = {
+    title: string
+    description: string
+    startDate: string
+    deadline: string
+    status: TaskStatuses
+    priority: TaskPriorities
+}
+// we need UpdateTaskModelType to doing put requests with entire object (task model)
+// it seems like TaskType bot shorter then it. In task model we have only 
+// necessary properties for our request
+// Now we can use one method: TasksAPI.updateTask for 2 cases (change title, change status)
+// instead of creating two similar methods separately for title and status  
 
 type ResponseType<T = {}> = {
     fieldsErrors: string[]

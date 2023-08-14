@@ -12,7 +12,11 @@ type PropsType = {
 
 export const Task = (props: PropsType) => {
     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-        props.changeTaskStatus(props.todoListId, props.task.id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New)
+        props.changeTaskStatus(
+            props.todoListId,
+            props.task.id,
+            e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
+        )
     }
     const removeTask = () => {
         props.removeTask(props.todoListId, props.task.id)
@@ -28,7 +32,7 @@ export const Task = (props: PropsType) => {
                 onChange={changeTaskStatus}
             />
             <EditableSpan changeTitle={changeTaskTitle} title={props.task.title} />
-            <button onClick={removeTask}>x</button> 
+            <button onClick={removeTask}>x</button>
         </div>
     )
 }

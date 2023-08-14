@@ -2,6 +2,8 @@ body {
   background-color: darkslategray;
 }
 .App {
+  display: flex;
+  justify-content: flex-start;
   padding: 10px;
   text-align: center;
 }
@@ -12,7 +14,12 @@ body {
   color: red
 }
 .todoList{
+  box-sizing: border-box;
   margin: 10px;
   display: inline-block;
-  border: 1px solid black;
+  transition: 0.3s;
+}
+.todoList:hover {
+  border-radius: 1px;
+  box-shadow: 0px 0px 0px 8px rgba(0,0,0,0.2)
 }
