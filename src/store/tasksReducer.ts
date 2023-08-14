@@ -141,3 +141,21 @@ export const getTasksTC = (todoId: string) => (dispatch: Dispatch) => {
             dispatch(setTasksAC(todoId, res.data.items))
         })    
 }
+export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispatch) => {
+    tasksAPI.deleteTask(todoId, taskId)
+        .then(res => {
+            dispatch(removeTaskAC(todoId, taskId))
+        })    
+}
+export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch) => {
+    tasksAPI.addTask(todoId, title)
+        .then(res => {
+            dispatch(addTaskAC(todoId, title))
+        })    
+}
+export const changeTaskTitleTC = (todoId: string, taskId: string, title: string) => (dispatch: Dispatch) => {
+    tasksAPI.changeTask(todoId, taskId, title)
+        .then(res => {
+            dispatch(changeTaskTitleAC(todoId, taskId, title))
+        })    
+}
