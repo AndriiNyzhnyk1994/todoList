@@ -2,6 +2,7 @@ body {
   background-color: darkslategray;
 }
 .App {
+  padding: 10px;
   text-align: center;
 }
 .error {
@@ -9,4 +10,9 @@ body {
 }
 .error-message {
   color: red
+}
+.todoList{
+  margin: 10px;
+  display: inline-block;
+  border: 1px solid black;
 }

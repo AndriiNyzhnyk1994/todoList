@@ -1,9 +1,12 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent, useCallback, useEffect } from 'react';
 import { AddItemForm } from './AddItemForm';
 import { EditableSpan } from './EditableSpan';
 import { Task } from './Task';
 import { TaskStatuses, TaskType } from './api/todoListAPI';
 import { FilterValuesType } from './store/todoListsReducer';
+import { getTasksTC } from './store/tasksReducer';
+import { useAppDispatch } from './store/store';
+
 
 type PropsType = {
     id: string
@@ -20,7 +23,7 @@ type PropsType = {
 }
 
 export const TodoList = React.memo((props: PropsType) => {
-
+    const dispatch = useAppDispatch()
     const onAllHandler = useCallback(() => {
         props.changeFilterValue(props.id, 'all')
     }, [props.id, props.changeFilterValue])
@@ -51,8 +54,13 @@ export const TodoList = React.memo((props: PropsType) => {
     if (props.filter === 'completed') {
         tasksForTodoList = props.tasks.filter((t) => t.status === TaskStatuses.Completed)
     }
+
+    useEffect(() => {
+        dispatch(getTasksTC(props.id))
+    }, [])
+
     return (
-        <div className="App">
+        <div className="todoList">
             <div>
                 <button onClick={removeTodoList}>DEL</button>
                 <h1>

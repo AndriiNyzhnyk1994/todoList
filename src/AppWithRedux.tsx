@@ -4,8 +4,8 @@ import { TodoList } from './Todolist';
 import { AddItemForm } from './AddItemForm';
 import { useSelector } from 'react-redux';
 import { AppRootStateType, useAppDispatch } from './store/store';
-import { FilterValuesType, TodoListDomainType, addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, getTodosThunk, removeTodoListAC, setTodoListsAC } from './store/todoListsReducer';
-import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from './store/tasksReducer';
+import { FilterValuesType, TodoListDomainType, addTodoListAC, changeTodoListFilterAC, changeTodoListTitleAC, getTodosTC, removeTodoListAC, setTodoListsAC } from './store/todoListsReducer';
+import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, getTasksTC, removeTaskAC } from './store/tasksReducer';
 import { TaskStatuses, TaskType} from './api/todoListAPI';
 
 
@@ -56,7 +56,7 @@ function AppWithRedux() {
   },[])
 
   useEffect(() => {
-    dispatch(getTodosThunk)
+    dispatch(getTodosTC())
   }, [])
 
   return (

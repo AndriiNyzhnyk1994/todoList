@@ -76,10 +76,10 @@ export type TodoListType = {
     order: number
 }
 
-type GetTasksResponseType = {
+export type GetTasksResponseType = {
     items: TaskType[]
     totalCount: number
-    error: string   
+    error: string | null
 }
 
 type ResponseType<T = {}> = {
