@@ -14,7 +14,7 @@ type RemoveTaskActionType = {
 type AddTaskActionType = {
     type: 'ADD-TASK'
     todoListId: string
-    newTaskTitle: string
+    task: TaskType
 }
 type ChangeTaskTitleActionType = {
     type: 'CHANGE-TASK-TITLE'
@@ -55,22 +55,15 @@ export const tasksReducer = (state: TasksStateType = {}, action: ActionType) => 
             return stateCopy
         }
         case "ADD-TASK": {
-            let stateCopy = { ...state }
-            let todoListTasks = stateCopy[action.todoListId]
-            const newTask: TaskType = {
-                id: v1(),
-                title: action.newTaskTitle,
-                addedDate: '',
-                deadline: '',
-                description: '',
-                order: 1,
-                status: TaskStatuses.New,
-                priority: TaskPriorities.Low,
-                startDate: '',
-                todoListId: action.todoListId,
+            // let stateCopy = { ...state }
+            // let todoListTasks = stateCopy[action.todoListId]
+            // stateCopy[action.todoListId] = [action.task, ...todoListTasks]
+            // return stateCopy
+            return {
+                ...state,
+                [action.todoListId]: [action.task, ...state[action.todoListId]]
             }
-            stateCopy[action.todoListId] = [newTask, ...todoListTasks]
-            return stateCopy
+
         }
         case "CHANGE-TASK-STATUS": {
             let stateCopy = { ...state }
@@ -121,8 +114,8 @@ export const tasksReducer = (state: TasksStateType = {}, action: ActionType) => 
 export const removeTaskAC = (todoListId: string, taskId: string): RemoveTaskActionType => {
     return { type: "REMOVE-TASK", todoListId, taskId }
 }
-export const addTaskAC = (todoListId: string, newTaskTitle: string): AddTaskActionType => {
-    return { type: "ADD-TASK", todoListId, newTaskTitle }
+export const addTaskAC = (todoListId: string, task: TaskType): AddTaskActionType => {
+    return { type: "ADD-TASK", todoListId, task }
 }
 export const changeTaskTitleAC = (todoListId: string, taskId: string, newTitle: string): ChangeTaskTitleActionType => {
     return { type: "CHANGE-TASK-TITLE", todoListId, taskId, newTitle }
@@ -150,7 +143,7 @@ export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispa
 export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch) => {
     tasksAPI.addTask(todoId, title)
         .then(res => {
-            dispatch(addTaskAC(todoId, title))
+            dispatch(addTaskAC(todoId, res.data.data.item))
         })    
 }
 export const changeTaskTitleTC = (todoId: string, taskId: string, title: string) => (dispatch: Dispatch) => {
