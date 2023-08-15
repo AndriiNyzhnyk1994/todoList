@@ -11,7 +11,7 @@ export type TodoListDomainType = TodoListType & {
 // & сверху служит оператором склеивания типов 
 
 type ActionType =
-    | ReturnType<typeof removeTodoListAC>
+    | ReturnType<typeof removeTodoListAC> 
     | ReturnType<typeof addTodoListAC>
     | ReturnType<typeof changeTodoListTitleAC>
     | ReturnType<typeof changeTodoListFilterAC>

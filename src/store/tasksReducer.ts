@@ -1,9 +1,8 @@
-import { v1 } from "uuid"
-import { AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType } from "./todoListsReducer"
 import { TasksStateType } from "../AppWithRedux"
 import { TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType, tasksAPI } from "../api/todoListAPI"
 import { Dispatch } from "redux"
 import { AppRootStateType } from "./store"
+import { addTodoListAC, removeTodoListAC, setTodoListsAC } from "./todoListsReducer"
 
 
 
@@ -40,9 +39,9 @@ type ActionType =
     | RemoveTaskActionType
     | ChangeTaskTitleActionType
     | ChangeTaskStatusActionType
-    | AddTodoListActionType
-    | RemoveTodoListActionType
-    | SetTodoListsActionType
+    | ReturnType<typeof removeTodoListAC> 
+    | ReturnType<typeof addTodoListAC>
+    | ReturnType<typeof setTodoListsAC>
     | SetTasksActionType
 
 export type TaskDomainType = TaskType
