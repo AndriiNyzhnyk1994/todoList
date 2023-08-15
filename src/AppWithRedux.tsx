@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from './store/store';
 import {
   FilterValuesType, TodoListDomainType,
   addTodoListAC, addTodoListTC, changeTodoListFilterAC,
-  changeTodoListTitleAC, getTodosTC, removeTodoListTC
+  changeTodoListTitleAC, changeTodoListTitleTC, getTodosTC, removeTodoListTC
 } from './store/todoListsReducer';
 import {
   addTaskTC, changeTaskStatusTC,
@@ -31,15 +31,12 @@ function AppWithRedux() {
   const addTodoList = useCallback((newTodoListTitle: string) => {
     dispatch(addTodoListTC(newTodoListTitle))
   }, [])
-
   const removeTodoList = useCallback((todoListId: string) => {
     dispatch(removeTodoListTC(todoListId))
   }, [])
-
   const removeTask = useCallback((todoListId: string, taskId: string) => {
     dispatch(removeTaskTC(todoListId, taskId))
   }, [])
-
   const changeFilterValue = useCallback((todoListId: string, value: FilterValuesType) => {
     const action = changeTodoListFilterAC(todoListId, value)
     dispatch(action)
@@ -55,8 +52,7 @@ function AppWithRedux() {
     dispatch(changeTaskTitleTC(todoListId, taskId, value))
   }, [])
   const changeTodoListTitle = useCallback((todoListId: string, newTitle: string) => {
-    const action = changeTodoListTitleAC(todoListId, newTitle)
-    dispatch(action)
+    dispatch(changeTodoListTitleTC(todoListId, newTitle))
   }, [])
 
   useEffect(() => {
