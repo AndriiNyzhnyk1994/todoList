@@ -6,13 +6,10 @@ import { AddItemForm } from './AddItemForm';
 import { useAppDispatch, useAppSelector } from './store/store';
 import {
   FilterValuesType, TodoListDomainType,
-  addTodoListAC, addTodoListTC, changeTodoListFilterAC,
-  changeTodoListTitleAC, changeTodoListTitleTC, getTodosTC, removeTodoListTC
+  addTodoListTC, changeTodoListFilterAC,
+  changeTodoListTitleTC, getTodosTC, removeTodoListTC
 } from './store/todoListsReducer';
-import {
-  addTaskTC, changeTaskStatusTC,
-  removeTaskTC, changeTaskTitleTC
-} from './store/tasksReducer';
+import { addTaskTC,removeTaskTC, updateTaskTC } from './store/tasksReducer';
 import { TaskStatuses, TaskType } from './api/todoListAPI';
 
 
@@ -45,11 +42,11 @@ function AppWithRedux() {
     dispatch(addTaskTC(todoListId, newTaskTitle))
   }, [])
   const changeTaskStatus = useCallback((todoListId: string, taskId: string, status: TaskStatuses) => {
-    const action = changeTaskStatusTC(todoListId, taskId, status)
-    dispatch(action)
+    dispatch(updateTaskTC(todoListId, taskId, {status}))
+    
   }, [])
   const changeTaskTitle = useCallback((todoListId: string, taskId: string, value: string) => {
-    dispatch(changeTaskTitleTC(todoListId, taskId, value))
+    dispatch(updateTaskTC(todoListId, taskId, {title: value}))
   }, [])
   const changeTodoListTitle = useCallback((todoListId: string, newTitle: string) => {
     dispatch(changeTodoListTitleTC(todoListId, newTitle))
