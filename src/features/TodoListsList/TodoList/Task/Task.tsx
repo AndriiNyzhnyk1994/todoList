@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback } from 'react'
-import { EditableSpan } from './EditableSpan'
-import { TaskStatuses, TaskType } from './api/todoListAPI'
+import { EditableSpan } from '../../../../components/EditableSpan/EditableSpan'
+import { TaskStatuses, TaskType } from '../../../../api/todoListAPI'
 
 type PropsType = {
     task: TaskType

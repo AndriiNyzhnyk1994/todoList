@@ -1,7 +1,7 @@
-import { TasksStateType } from '../AppWithRedux';
-import { TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType } from '../api/todoListAPI';
-import { UpdateDomainTaskModelType, addTaskAC, removeTaskAC, tasksReducer, updateTaskAC } from './tasksReducer'
-import { TodoListDomainType, addTodoListAC, removeTodoListAC, todoListReducer } from './todoListsReducer'
+import { TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType } from "../../api/todoListAPI";
+import { TasksStateType } from "../../app/AppWithRedux";
+import { addTaskAC, removeTaskAC, tasksReducer, updateTaskAC } from "./tasksReducer";
+import { TodoListDomainType, addTodoListAC, removeTodoListAC, todoListReducer } from "./todoListsReducer";
 
 let startState: TasksStateType;
 

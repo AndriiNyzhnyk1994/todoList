@@ -8,6 +8,7 @@ const instance = axios.create({
     }
 })
 
+// API
 export const todoListAPI = {
     getTodoLists() {
         return instance.get<TodoListType[]>('todo-lists')
@@ -37,6 +38,7 @@ export const tasksAPI = {
     }
 }
 
+// TYPES
 
 export enum TaskStatuses {
     New = 0,
@@ -44,7 +46,6 @@ export enum TaskStatuses {
     Completed = 2,
     Draft = 3
 }
-
 export enum TaskPriorities {
     Low = 0,
     Middle = 1,
@@ -52,7 +53,6 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
-
 export type TaskType = {
     id: string
     title: string
@@ -65,14 +65,12 @@ export type TaskType = {
     deadline: string
     addedDate: string
 }
-
 export type TodoListType = {
     addedDate: string
     id: string
     title: string
     order: number
 }
-
 export type GetTasksResponseType = {
     items: TaskType[]
     totalCount: number
@@ -87,7 +85,7 @@ export type UpdateTaskModelType = {
     priority: TaskPriorities
 }
 // we need UpdateTaskModelType to doing put requests with entire object (task model)
-// it seems like TaskType bot shorter then it. In task model we have only 
+// it seems like TaskType bot shorter then it. In task model we have just 
 // necessary properties for our request
 // Now we can use one method: TasksAPI.updateTask for 2 cases (change title, change status)
 // instead of creating two similar methods separately for title and status  
@@ -99,7 +97,7 @@ type ResponseType<T = {}> = {
     data: T
 }
 // T - это тип-параметр. В нашем случае data может быть разная,
-// поэтому мы свойство data не конкретизируем, а вераем на неё параметр
+// поэтому мы свойство data не конкретизируем, а веаем на неё параметр
 // В дальшейшем, когда будет вешать типизацию ResponseType на респонс, то укажем
 // тот тип, что встанет на место T, это будет значением свойства data для конкретного респонса
 // пример: axios.post<ResponseType<{item: TodoListType}>>(...)
