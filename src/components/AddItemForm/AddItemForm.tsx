@@ -1,4 +1,5 @@
-import Button from '@mui/material/Button';
+import { AddBox } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import React, { ChangeEvent, useState } from 'react';
 
@@ -33,9 +34,12 @@ export const AddItemForm = React.memo((props: PropsType) => {
                 value={title}
                 onChange={onChangeHandler}
                 error={!!error}
+                label='Title'
+                helperText={error}
             />
-            <Button style={{maxWidth:'30px', maxHeight: '30px'}} variant='contained' onClick={addItem}>add</Button>
-            {error && <div className='error-message'>{error}</div>}
+            <IconButton style={{maxWidth:'30px', maxHeight: '30px'}}  onClick={addItem}>
+                <AddBox/>
+            </IconButton>
         </div>
     )
 })
