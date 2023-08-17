@@ -6,6 +6,9 @@ import { TaskStatuses, TaskType } from '../../../api/todoListAPI';
 import { FilterValuesType } from '../todoListsReducer';
 import { useAppDispatch } from '../../../app/store';
 import { getTasksTC } from '../tasksReducer';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import { Delete } from '@mui/icons-material';
 
 
 type PropsType = {
@@ -62,7 +65,9 @@ export const TodoList = React.memo((props: PropsType) => {
     return (
         <div className="todoList">
             <div>
-                <button onClick={removeTodoList}>DEL</button>
+                <IconButton onClick={removeTodoList}>
+                    <Delete/>
+                </IconButton>
                 <h2>
                     <EditableSpan title={props.title} changeTitle={changeTodoListTitle} />
                 </h2>
@@ -82,9 +87,9 @@ export const TodoList = React.memo((props: PropsType) => {
                     })}
                 </div>
                 <div>
-                    <button onClick={onAllHandler}>All</button>
-                    <button onClick={onActiveHandler}>Active</button>
-                    <button onClick={onCompletedHandler}>Completed</button>
+                    <Button variant={props.filter === 'all' ? 'outlined' : 'text'} color='primary' onClick={onAllHandler}>All</Button>
+                    <Button variant={props.filter === 'active' ? 'outlined' : 'text'} color='secondary' onClick={onActiveHandler}>Active</Button>
+                    <Button variant={props.filter === 'completed' ? 'outlined' : 'text'} color='success' onClick={onCompletedHandler}>Completed</Button>
                 </div>
             </div>
         </div>

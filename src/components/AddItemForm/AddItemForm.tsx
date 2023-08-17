@@ -1,3 +1,5 @@
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import React, { ChangeEvent, useState } from 'react';
 
 type PropsType = {
@@ -15,8 +17,6 @@ export const AddItemForm = React.memo((props: PropsType) => {
             setError(null)
         }
     }
-    
-
     const addItem = () => {
         if (title.trim()) {
             props.addItem(title)
@@ -24,17 +24,17 @@ export const AddItemForm = React.memo((props: PropsType) => {
         } else {
             setError('Title is required')
         }
-
     }
 
     return (
         <div>
-            <input
-                className={error ? 'error' : ''}
+            <TextField
+                variant='outlined'
                 value={title}
                 onChange={onChangeHandler}
+                error={!!error}
             />
-            <button onClick={addItem}>add</button>
+            <Button style={{maxWidth:'30px', maxHeight: '30px'}} variant='contained' onClick={addItem}>add</Button>
             {error && <div className='error-message'>{error}</div>}
         </div>
     )
