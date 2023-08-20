@@ -11,6 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { LinearProgress } from '@mui/material';
 import { useAppSelector } from './store';
 import { RequestStatusType } from './app-reducer';
+import {CustomizedSnackbars} from '../components/ErrorSnackBar/ErrorSnackBar';
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>
@@ -40,6 +41,7 @@ function AppWithRedux() {
         {loadingStatus === 'loading' && <LinearProgress color='secondary' />}
       </AppBar>
       <TodoListsList />
+      <CustomizedSnackbars />
     </div>
   );
 }
