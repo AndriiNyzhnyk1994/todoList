@@ -3,6 +3,7 @@ import { AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType
 import { TasksStateType } from "../../app/AppWithRedux"
 import { TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType, tasksAPI } from "../../api/todoListAPI"
 import { AppRootStateType } from "../../app/store"
+import { SetStatusType, setStatusAC } from "../../app/app-reducer"
 
 
 
@@ -58,23 +59,29 @@ export const setTasksAC = (todoListId: string, tasks: TaskType[]) => {
 
 // THUNKS
 export const getTasksTC = (todoId: string) => (dispatch: Dispatch<ActionType>) => {
+    dispatch(setStatusAC("loading"))
     tasksAPI.getTasks(todoId)
         .then(res => {
             dispatch(setTasksAC(todoId, res.data.items))
+            dispatch(setStatusAC("succeded"))
         })
 }
 
 export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispatch<ActionType>) => {
+    dispatch(setStatusAC("loading"))
     tasksAPI.deleteTask(todoId, taskId)
         .then(res => {
             dispatch(removeTaskAC(todoId, taskId))
+            dispatch(setStatusAC("succeded"))
         })
 }
 
 export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch<ActionType>) => {
+    dispatch(setStatusAC("loading"))
     tasksAPI.addTask(todoId, title)
         .then(res => {
             dispatch(addTaskAC(todoId, res.data.data.item))
+            dispatch(setStatusAC("succeded"))
         })
 }
 
@@ -93,9 +100,11 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModel: Update
                 status: task.status,
                 ...domainModel
             }
+            dispatch(setStatusAC("loading"))
             tasksAPI.updateTask(todoId, taskId, model)
                 .then(res => {
                     dispatch(updateTaskAC(todoId, taskId, model))
+                    dispatch(setStatusAC("succeded"))
                 })
         }
     }
@@ -110,6 +119,7 @@ type ActionType =
     | RemoveTodoListActionType
     | AddTodoListActionType
     | SetTodoListsActionType
+    | SetStatusType
 
 export type TaskDomainType = TaskType
 

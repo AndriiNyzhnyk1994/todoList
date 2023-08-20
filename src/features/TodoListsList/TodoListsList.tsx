@@ -10,6 +10,7 @@ import { FilterValuesType, TodoListDomainType, addTodoListTC, changeTodoListFilt
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import { setStatusAC } from '../../app/app-reducer';
 
 
 
@@ -50,6 +51,7 @@ export const TodoListsList: React.FC = () => {
   }, [])
 
   useEffect(() => {
+    dispatch(setStatusAC('loading'))
     dispatch(getTodosTC())
   }, [])
 

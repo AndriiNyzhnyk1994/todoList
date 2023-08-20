@@ -13,10 +13,12 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
             return { ...state, status: action.status }
         default: return state
     }
-
 }
 
-type ActionType = {
-    type: 'APP/SET-STATUS'
-    status: RequestStatusType
+export const setStatusAC = (status: RequestStatusType) => {
+    return { type: "APP/SET-STATUS", status } as const
 }
+
+export type SetStatusType = ReturnType<typeof setStatusAC>
+
+type ActionType = SetStatusType
