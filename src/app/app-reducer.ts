@@ -1,5 +1,5 @@
 const initialState = {
-    error: 'Its error' as null | string,
+    error: null as null | string,
     status: 'loading' as RequestStatusType
 }
 export const appReducer = (state: InitialStateType = initialState, action: ActionType) => {

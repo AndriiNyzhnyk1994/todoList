@@ -3,7 +3,7 @@ import { AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType
 import { TasksStateType } from "../../app/AppWithRedux"
 import { TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType, tasksAPI } from "../../api/todoListAPI"
 import { AppRootStateType } from "../../app/store"
-import { SetStatusType, setStatusAC } from "../../app/app-reducer"
+import { SetErrorType, SetStatusType, setErrorAC, setStatusAC } from "../../app/app-reducer"
 
 
 
@@ -79,10 +79,15 @@ export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispa
 export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch<ActionType>) => {
     dispatch(setStatusAC("loading"))
     tasksAPI.addTask(todoId, title)
-        .then(res => {
+    .then(res => {
+        if(res.data.resultCode === 0) {
             dispatch(addTaskAC(todoId, res.data.data.item))
-            dispatch(setStatusAC("succeded"))
-        })
+        }
+        else {
+            dispatch(setErrorAC(res.data.messages[0]))
+        }
+        dispatch(setStatusAC("idle"))
+    })
 }
 
 export const updateTaskTC = (todoId: string, taskId: string, domainModel: UpdateDomainTaskModelType) =>
@@ -120,6 +125,7 @@ type ActionType =
     | AddTodoListActionType
     | SetTodoListsActionType
     | SetStatusType
+    | SetErrorType
 
 export type TaskDomainType = TaskType
 
