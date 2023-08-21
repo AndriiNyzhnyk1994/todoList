@@ -71,23 +71,39 @@ export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispa
     dispatch(setStatusAC("loading"))
     tasksAPI.deleteTask(todoId, taskId)
         .then(res => {
-            dispatch(removeTaskAC(todoId, taskId))
-            dispatch(setStatusAC("succeded"))
+            if (res.data.resultCode === 0) {
+                dispatch(removeTaskAC(todoId, taskId))
+            }
+            else {
+                if (res.data.messages.length) {
+                    dispatch(setErrorAC(res.data.messages[0]))
+                }
+                else {
+                    dispatch(setErrorAC('Some error occured'))
+                }
+            }
+            dispatch(setStatusAC("idle"))
         })
 }
 
 export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch<ActionType>) => {
     dispatch(setStatusAC("loading"))
     tasksAPI.addTask(todoId, title)
-    .then(res => {
-        if(res.data.resultCode === 0) {
-            dispatch(addTaskAC(todoId, res.data.data.item))
-        }
-        else {
-            dispatch(setErrorAC(res.data.messages[0]))
-        }
-        dispatch(setStatusAC("idle"))
-    })
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(addTaskAC(todoId, res.data.data.item))
+            }
+            else {
+                if (res.data.messages.length) {
+                    dispatch(setErrorAC(res.data.messages[0]))
+                }
+                else {
+                    dispatch(setErrorAC('Some error occured'))
+                }
+
+            }
+            dispatch(setStatusAC("idle"))
+        })
 }
 
 export const updateTaskTC = (todoId: string, taskId: string, domainModel: UpdateDomainTaskModelType) =>
@@ -108,8 +124,18 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModel: Update
             dispatch(setStatusAC("loading"))
             tasksAPI.updateTask(todoId, taskId, model)
                 .then(res => {
-                    dispatch(updateTaskAC(todoId, taskId, model))
-                    dispatch(setStatusAC("succeded"))
+                    if (res.data.resultCode === 0) {
+                        dispatch(updateTaskAC(todoId, taskId, model))
+                    }
+                    else {
+                        if(res.data.messages.length) {
+                            dispatch(setErrorAC(res.data.messages[0]))
+                        }
+                        else {
+                            dispatch(setErrorAC('Some error occured'))
+                        }
+                    }
+                    dispatch(setStatusAC("idle"))
                 })
         }
     }
