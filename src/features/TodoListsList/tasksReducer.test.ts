@@ -165,7 +165,8 @@ test('new array should be added when new todolist is added', () => {
         id: '28',
         filter: 'all',
         order: 0,
-        addedDate: ''
+        addedDate: '',
+        entityStatus: 'idle'
     }
     const action = addTodoListAC(newTodoList)
 
@@ -187,7 +188,8 @@ test('ids should be equals', () => {
         id: '28',
         filter: 'all',
         order: 0,
-        addedDate: ''
+        addedDate: '',
+        entityStatus: 'idle'
     }
     const startTasksState: TasksStateType = {}
     const startTodolistsState: Array<TodoListDomainType> = []
