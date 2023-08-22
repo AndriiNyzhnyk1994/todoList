@@ -67,12 +67,18 @@ export const getTodosTC = () => (dispatch: Dispatch<ActionType>) => {
             dispatch(setStatusAC("succeded"))
         })
 }
+
+export enum ResultCode {
+    OK = 0,
+    Error = 1,
+    Captcha = 10
+}
 export const removeTodoListTC = (todoListId: string) => (dispatch: Dispatch<ActionType>) => {
     dispatch(setStatusAC("loading"))
     dispatch(setEntityStatusAC(todoListId, "loading"))
     todoListAPI.deleteTodoList(todoListId)
         .then(res => {
-            if (res.data.resultCode === 0) {
+            if (res.data.resultCode === ResultCode.OK) {
                 dispatch(removeTodoListAC(todoListId))
             }
             else {
