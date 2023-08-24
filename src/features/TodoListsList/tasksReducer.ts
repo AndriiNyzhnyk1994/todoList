@@ -5,8 +5,6 @@ import { TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType, tasksAPI }
 import { AppRootStateType } from "../../app/store"
 import { SetErrorType, SetStatusType, setErrorAC, setStatusAC } from "../../app/app-reducer"
 
-
-
 export const tasksReducer = (state: TasksStateType = {}, action: ActionType) => {
     switch (action.type) {
         case "REMOVE-TASK":
@@ -139,7 +137,6 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModel: Update
                 })
         }
     }
-
 
 // TYPES
 type ActionType =

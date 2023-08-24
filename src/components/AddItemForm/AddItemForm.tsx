@@ -5,10 +5,11 @@ import React, { ChangeEvent, useState } from 'react';
 
 type PropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props: PropsType) => {
-    
+
     const [title, setTitle] = useState('')
     const [error, setError] = useState<null | string>(null)
 
@@ -30,6 +31,7 @@ export const AddItemForm = React.memo((props: PropsType) => {
     return (
         <div>
             <TextField
+                disabled={props.disabled}
                 variant='outlined'
                 value={title}
                 onChange={onChangeHandler}
@@ -37,8 +39,12 @@ export const AddItemForm = React.memo((props: PropsType) => {
                 label='Title'
                 helperText={error}
             />
-            <IconButton style={{maxWidth:'30px', maxHeight: '30px'}}  onClick={addItem}>
-                <AddBox/>
+            <IconButton
+                disabled={props.disabled}
+                style={{ maxWidth: '30px', maxHeight: '30px' }}
+                onClick={addItem}
+            >
+                <AddBox />
             </IconButton>
         </div>
     )
