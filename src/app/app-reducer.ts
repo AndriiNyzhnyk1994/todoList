@@ -19,12 +19,10 @@ export const setErrorAC = (error: string | null) => {
     return { type: "APP/SET-ERROR", error } as const
 }
 
-
 //TYPES
 export type RequestStatusType = 'idle' | 'loading' | 'succeded' | 'failed'
 type InitialStateType = typeof initialState
 export type SetStatusType = ReturnType<typeof setStatusAC>
 export type SetErrorType = ReturnType<typeof setErrorAC>
-
 
 type ActionType = SetStatusType | SetErrorType
