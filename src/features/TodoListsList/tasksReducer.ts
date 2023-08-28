@@ -1,5 +1,5 @@
 import { Dispatch } from "redux"
-import { AddTodoListActionType, RemoveTodoListActionType, SetTodoListsActionType, addTodoListAC, removeTodoListAC, setTodoListsAC } from "./todoListsReducer"
+import { AddTodoListActionType, RemoveTodoListActionType, ResultCode, SetTodoListsActionType, addTodoListAC, removeTodoListAC, setTodoListsAC } from "./todoListsReducer"
 import { TasksStateType } from "../../app/AppWithRedux"
 import { TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType, tasksAPI } from "../../api/todoListAPI"
 import { AppRootStateType } from "../../app/store"
@@ -69,8 +69,9 @@ export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispa
     dispatch(setStatusAC("loading"))
     tasksAPI.deleteTask(todoId, taskId)
         .then(res => {
-            if (res.data.resultCode === 0) {
+            if (res.data.resultCode === ResultCode.OK) {
                 dispatch(removeTaskAC(todoId, taskId))
+
             }
             else {
                 if (res.data.messages.length) {
@@ -88,7 +89,7 @@ export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch<
     dispatch(setStatusAC("loading"))
     tasksAPI.addTask(todoId, title)
         .then(res => {
-            if (res.data.resultCode === 0) {
+            if (res.data.resultCode === ResultCode.OK) {
                 dispatch(addTaskAC(todoId, res.data.data.item))
             }
             else {
@@ -101,6 +102,10 @@ export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch<
 
             }
             dispatch(setStatusAC("idle"))
+        })
+        .catch((e) => {
+            dispatch(setErrorAC(e.message))
+            dispatch(setStatusAC('failed'))
         })
 }
 
@@ -122,11 +127,12 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModel: Update
             dispatch(setStatusAC("loading"))
             tasksAPI.updateTask(todoId, taskId, model)
                 .then(res => {
-                    if (res.data.resultCode === 0) {
+                    if (res.data.resultCode === ResultCode.OK) {
                         dispatch(updateTaskAC(todoId, taskId, model))
+                        dispatch(setStatusAC('succeded'))
                     }
                     else {
-                        if(res.data.messages.length) {
+                        if (res.data.messages.length) {
                             dispatch(setErrorAC(res.data.messages[0]))
                         }
                         else {
@@ -134,6 +140,10 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModel: Update
                         }
                     }
                     dispatch(setStatusAC("idle"))
+                })
+                .catch((e) => {
+                    dispatch(setErrorAC(e.message))
+                    dispatch(setStatusAC('failed'))
                 })
         }
     }
