@@ -90,7 +90,7 @@ export type UpdateTaskModelType = {
 // Now we can use one method: TasksAPI.updateTask for 2 cases (change title, change status)
 // instead of creating two similar methods separately for title and status  
 
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
     fieldsErrors: string[]
     messages: string[]
     resultCode: number

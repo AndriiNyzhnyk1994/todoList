@@ -4,6 +4,7 @@ import { TasksStateType } from "../../app/AppWithRedux"
 import { TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType, tasksAPI } from "../../api/todoListAPI"
 import { AppRootStateType } from "../../app/store"
 import { SetErrorType, SetStatusType, setErrorAC, setStatusAC } from "../../app/app-reducer"
+import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils"
 
 export const tasksReducer = (state: TasksStateType = {}, action: ActionType) => {
     switch (action.type) {
@@ -74,14 +75,8 @@ export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispa
 
             }
             else {
-                if (res.data.messages.length) {
-                    dispatch(setErrorAC(res.data.messages[0]))
-                }
-                else {
-                    dispatch(setErrorAC('Some error occured'))
-                }
+                handleServerAppError(res.data, dispatch)
             }
-            dispatch(setStatusAC("idle"))
         })
 }
 
@@ -93,19 +88,11 @@ export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch<
                 dispatch(addTaskAC(todoId, res.data.data.item))
             }
             else {
-                if (res.data.messages.length) {
-                    dispatch(setErrorAC(res.data.messages[0]))
-                }
-                else {
-                    dispatch(setErrorAC('Some error occured'))
-                }
-
+                handleServerAppError(res.data, dispatch)
             }
-            dispatch(setStatusAC("idle"))
         })
         .catch((e) => {
-            dispatch(setErrorAC(e.message))
-            dispatch(setStatusAC('failed'))
+            handleServerNetworkError(dispatch, e)
         })
 }
 
@@ -132,17 +119,11 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModel: Update
                         dispatch(setStatusAC('succeded'))
                     }
                     else {
-                        if (res.data.messages.length) {
-                            dispatch(setErrorAC(res.data.messages[0]))
-                        }
-                        else {
-                            dispatch(setErrorAC('Some error occured'))
-                        }
+                        handleServerAppError(res.data, dispatch)
                     }
-                    dispatch(setStatusAC("idle"))
                 })
                 .catch((e) => {
-                    
+                    handleServerNetworkError(dispatch, e)
                 })
         }
     }
