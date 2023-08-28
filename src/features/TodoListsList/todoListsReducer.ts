@@ -81,16 +81,11 @@ export const removeTodoListTC = (todoListId: string) => (dispatch: Dispatch<Acti
         .then(res => {
             if (res.data.resultCode === ResultCode.OK) {
                 dispatch(removeTodoListAC(todoListId))
+                dispatch(setStatusAC("succeded"))
             }
             else {
-                if (res.data.messages.length) {
-                    dispatch(setErrorAC(res.data.messages[0]))
-                }
-                else {
-                    dispatch(setErrorAC('Some error occured'))
-                }
+                handleServerAppError(res.data, dispatch)
             }
-            dispatch(setStatusAC("idle"))
         })
         .catch((e) => {
             dispatch(setErrorAC(e.message))
@@ -120,16 +115,11 @@ export const changeTodoListTitleTC = (todoListId: string, title: string) => (dis
         .then(res => {
             if (res.data.resultCode === ResultCode.OK) {
                 dispatch(changeTodoListTitleAC(todoListId, title))
+                dispatch(setStatusAC("succeded"))
             }
             else {
-                if (res.data.messages.length) {
-                    dispatch(setErrorAC(res.data.messages[0]))
-                }
-                else {
-                    dispatch(setErrorAC('Some error occured'))
-                }
+                handleServerAppError(res.data, dispatch)
             }
-            dispatch(setStatusAC("idle"))
         })
 }
 

@@ -72,7 +72,7 @@ export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispa
         .then(res => {
             if (res.data.resultCode === ResultCode.OK) {
                 dispatch(removeTaskAC(todoId, taskId))
-
+                dispatch(setStatusAC("succeded"))
             }
             else {
                 handleServerAppError(res.data, dispatch)
@@ -86,6 +86,7 @@ export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch<
         .then(res => {
             if (res.data.resultCode === ResultCode.OK) {
                 dispatch(addTaskAC(todoId, res.data.data.item))
+                dispatch(setStatusAC("succeded"))
             }
             else {
                 handleServerAppError(res.data, dispatch)
