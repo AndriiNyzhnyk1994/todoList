@@ -142,8 +142,7 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModel: Update
                     dispatch(setStatusAC("idle"))
                 })
                 .catch((e) => {
-                    dispatch(setErrorAC(e.message))
-                    dispatch(setStatusAC('failed'))
+                    
                 })
         }
     }
