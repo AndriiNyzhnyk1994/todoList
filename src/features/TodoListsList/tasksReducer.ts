@@ -5,6 +5,7 @@ import { TaskPriorities, TaskStatuses, TaskType, UpdateTaskModelType, tasksAPI }
 import { AppRootStateType } from "../../app/store"
 import { SetErrorType, SetStatusType, setErrorAC, setStatusAC } from "../../app/app-reducer"
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils"
+import axios, { AxiosError } from "axios"
 
 export const tasksReducer = (state: TasksStateType = {}, action: ActionType) => {
     switch (action.type) {
@@ -80,21 +81,22 @@ export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispa
         })
 }
 
-export const addTaskTC = (todoId: string, title: string) => (dispatch: Dispatch<ActionType>) => {
+export const addTaskTC = (todoId: string, title: string) => async (dispatch: Dispatch<ActionType>) => {
     dispatch(setStatusAC("loading"))
-    tasksAPI.addTask(todoId, title)
-        .then(res => {
-            if (res.data.resultCode === ResultCode.OK) {
-                dispatch(addTaskAC(todoId, res.data.data.item))
-                dispatch(setStatusAC("succeded"))
-            }
-            else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((e) => {
+    try {
+        const res = await tasksAPI.addTask(todoId, title)
+        if (res.data.resultCode === ResultCode.OK) {
+            dispatch(addTaskAC(todoId, res.data.data.item))
+            dispatch(setStatusAC("succeded"))
+        }
+        else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (e) {
+        if(axios.isAxiosError(e)) {
             handleServerNetworkError(dispatch, e)
-        })
+        }
+    }
 }
 
 export const updateTaskTC = (todoId: string, taskId: string, domainModel: UpdateDomainTaskModelType) =>
@@ -123,7 +125,7 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModel: Update
                         handleServerAppError(res.data, dispatch)
                     }
                 })
-                .catch((e) => {
+                .catch((e: AxiosError<{ message: string }>) => {
                     handleServerNetworkError(dispatch, e)
                 })
         }
