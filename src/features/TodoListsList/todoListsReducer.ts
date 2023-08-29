@@ -2,6 +2,7 @@ import { Dispatch } from "redux"
 import { TodoListType, todoListAPI } from "../../api/todoListAPI"
 import { RequestStatusType, SetErrorType, SetStatusType, setErrorAC, setStatusAC } from "../../app/app-reducer"
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils"
+import { AxiosError } from "axios"
 
 
 
@@ -87,7 +88,7 @@ export const removeTodoListTC = (todoListId: string) => (dispatch: Dispatch<Acti
                 handleServerAppError(res.data, dispatch)
             }
         })
-        .catch((e) => {
+        .catch((e: AxiosError) => {
             dispatch(setErrorAC(e.message))
             dispatch(setStatusAC('failed'))
             dispatch(setEntityStatusAC(todoListId, 'failed'))
@@ -105,8 +106,8 @@ export const addTodoListTC = (title: string) => (dispatch: Dispatch<ActionType>)
                 handleServerAppError(res.data, dispatch)
             }
         })
-        .catch((e) => {
-            handleServerNetworkError(dispatch, e)
+        .catch((e: AxiosError) => {
+            handleServerNetworkError(dispatch, e.message)
         })
 }
 export const changeTodoListTitleTC = (todoListId: string, title: string) => (dispatch: Dispatch<ActionType>) => {

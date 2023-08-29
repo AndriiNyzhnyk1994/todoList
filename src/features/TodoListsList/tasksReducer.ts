@@ -93,8 +93,9 @@ export const addTaskTC = (todoId: string, title: string) => async (dispatch: Dis
             handleServerAppError(res.data, dispatch)
         }
     } catch (e) {
-        if(axios.isAxiosError(e)) {
-            handleServerNetworkError(dispatch, e)
+        if(axios.isAxiosError<{message: string}>(e)) {
+            const error = e.response ? e.response?.data.message : e.message
+            handleServerNetworkError(dispatch, error)
         }
     }
 }
@@ -126,7 +127,7 @@ export const updateTaskTC = (todoId: string, taskId: string, domainModel: Update
                     }
                 })
                 .catch((e: AxiosError<{ message: string }>) => {
-                    handleServerNetworkError(dispatch, e)
+                    handleServerNetworkError(dispatch, e.message)
                 })
         }
     }
