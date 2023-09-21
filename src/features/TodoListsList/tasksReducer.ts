@@ -66,7 +66,7 @@ export const getTasksTC = (todoId: string) => (dispatch: Dispatch<ActionType>) =
             dispatch(setStatusAC("succeded"))
         })
 }
-
+ 
 export const removeTaskTC = (todoId: string, taskId: string) => (dispatch: Dispatch<ActionType>) => {
     dispatch(setStatusAC("loading"))
     tasksAPI.deleteTask(todoId, taskId)
